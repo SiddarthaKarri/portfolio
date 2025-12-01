@@ -471,7 +471,6 @@ export function WorkCode() {
                 }
               }}
               className="flex-1 bg-transparent border-none outline-none text-foreground"
-              autoFocus
               autoComplete="off"
             />
           </div>
