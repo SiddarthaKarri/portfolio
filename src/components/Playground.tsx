@@ -82,35 +82,27 @@ export function Playground() {
     const [activeTab, setActiveTab] = useState("syntax");
 
     return (
-        <section className="py-20 px-4 overflow-hidden relative">
-            <div className="max-w-6xl mx-auto">
-                <h2 className="text-3xl md:text-5xl font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">
-                    Code Playground
-                </h2>
-
-                <div className="flex justify-center mb-8 space-x-4">
-                    <button
-                        onClick={() => setActiveTab("syntax")}
-                        className={`flex items-center px-4 py-2 rounded-full transition-all ${activeTab === "syntax" ? "bg-primary text-primary-foreground shadow-lg scale-105" : "bg-muted text-muted-foreground hover:bg-muted/80"
-                            }`}
-                    >
-                        <Terminal className="w-4 h-4 mr-2" /> Syntax Physics
-                    </button>
-                    <button
-                        onClick={() => setActiveTab("animations")}
-                        className={`flex items-center px-4 py-2 rounded-full transition-all ${activeTab === "animations" ? "bg-primary text-primary-foreground shadow-lg scale-105" : "bg-muted text-muted-foreground hover:bg-muted/80"
-                            }`}
-                    >
-                        <Activity className="w-4 h-4 mr-2" /> 3D Hologram
-                    </button>
-                </div>
-
-                <div className="bg-card border border-border rounded-xl shadow-2xl overflow-hidden min-h-[600px] relative">
-                    {activeTab === "syntax" && <SyntaxPhysics />}
-                    {activeTab === "animations" && <AnimationPlayground />}
-                </div>
+        <div className="flex flex-col h-full bg-black border border-zinc-800 rounded-lg overflow-hidden relative">
+            <div className="absolute top-4 left-4 z-10 flex gap-2">
+                <button
+                    onClick={() => setActiveTab("syntax")}
+                    className={`px-3 py-1 rounded-full text-xs font-mono transition-colors ${activeTab === "syntax" ? "bg-white text-black" : "bg-zinc-800 text-zinc-400"}`}
+                >
+                    Physics
+                </button>
+                <button
+                    onClick={() => setActiveTab("animations")}
+                    className={`px-3 py-1 rounded-full text-xs font-mono transition-colors ${activeTab === "animations" ? "bg-white text-black" : "bg-zinc-800 text-zinc-400"}`}
+                >
+                    3D
+                </button>
             </div>
-        </section>
+
+            <div className="w-full h-full min-h-[400px]">
+                {activeTab === "syntax" && <SyntaxPhysics />}
+                {activeTab === "animations" && <AnimationPlayground />}
+            </div>
+        </div>
     );
 }
 

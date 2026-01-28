@@ -1,123 +1,77 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
-import { Menu, X } from "lucide-react";
-import { ThemeToggle } from "@/components/ThemeToggle";
-
-const links = [
-    { name: "Home", href: "#hero" },
-    { name: "Experience", href: "#experience" },
-    { name: "CP", href: "#cp" },
-    { name: "Projects", href: "#workcode" },
-    { name: "Skills", href: "#skills" },
-    { name: "Playground", href: "#playground" },
-    { name: "Contact", href: "#contact" },
-];
+import { useTheme } from "next-themes";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Command, Moon, Sun } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export function Navbar() {
-    const [isOpen, setIsOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
-    const { scrollYProgress } = useScroll();
-    const scaleX = useSpring(scrollYProgress, {
-        stiffness: 100,
-        damping: 30,
-        restDelta: 0.001
-    });
+    const { theme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+    const pathname = usePathname();
 
     useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 50);
-        };
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
+        setMounted(true);
     }, []);
 
-    const scrollToSection = (href: string) => {
-        setIsOpen(false);
-        const element = document.querySelector(href);
-        if (element) {
-            element.scrollIntoView({ behavior: "smooth" });
-        }
-    };
+    const links = [
+        { name: "Work", href: "#work" },
+        { name: "Blogs", href: "#blogs" },
+        { name: "Projects", href: "#projects" },
+    ];
 
     return (
-        <nav
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/80 backdrop-blur-md border-b border-border shadow-sm" : "bg-transparent"
-                }`}
-        >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16 relative">
-                    {/* Logo */}
-                    <div
-                        className="text-xl font-bold cursor-pointer font-mono text-foreground flex-shrink-0"
-                        onClick={() => scrollToSection("#hero")}
+        <header className="fixed top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="flex h-14 max-w-2xl mx-auto items-center justify-between px-4 sm:px-6">
+
+                {/* Logo / Home */}
+                <Link href="/" className="flex items-center space-x-2">
+                    {/* Using a simple emoji or icon as placeholder for the pixel avatar in navbar if desired, or just text */}
+                    <span className="font-bold inline-block">SK</span>
+                </Link>
+
+                {/* Center Links */}
+                <nav className="flex items-center gap-6 text-sm font-medium">
+                    {links.map((link) => (
+                        <Link
+                            key={link.href}
+                            href={link.href}
+                            className={cn(
+                                "transition-colors hover:text-foreground/80",
+                                pathname === link.href ? "text-foreground" : "text-foreground/60"
+                            )}
+                        >
+                            {link.name}
+                        </Link>
+                    ))}
+                </nav>
+
+                {/* Right Controls */}
+                <div className="flex items-center gap-2">
+                    {/* Search Placeholder */}
+                    {/* <button className="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 px-3 text-muted-foreground">
+                <span className="text-xs">Search</span>
+                <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+                    <span className="text-xs">⌘</span>K
+                </kbd>
+            </button> */}
+
+                    {/* Theme Toggle */}
+                    <button
+                        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                        className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 w-9"
                     >
-                        <span className="md:hidden">&lt;Sid /&gt;</span>
-                        <span className="hidden md:block">&lt;Siddartha Karri /&gt;</span>
-                    </div>
-
-                    {/* Desktop Menu - Centered */}
-                    <div className="hidden md:flex items-center space-x-8 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                        {links.map((link) => (
-                            <button
-                                key={link.name}
-                                onClick={() => scrollToSection(link.href)}
-                                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-                            >
-                                {link.name}
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* Right Side: Theme Toggle & Mobile Menu */}
-                    <div className="flex items-center gap-4">
-                        <div className="scale-75 md:scale-100 origin-right">
-                            <ThemeToggle />
-                        </div>
-
-                        {/* Mobile Menu Button */}
-                        <div className="md:hidden flex items-center">
-                            <button
-                                onClick={() => setIsOpen(!isOpen)}
-                                className="text-foreground p-2"
-                            >
-                                {isOpen ? <X size={24} /> : <Menu size={24} />}
-                            </button>
-                        </div>
-                    </div>
+                        {mounted && theme === "dark" ? (
+                            <Moon className="h-4 w-4" />
+                        ) : (
+                            <Sun className="h-4 w-4" />
+                        )}
+                        <span className="sr-only">Toggle theme</span>
+                    </button>
                 </div>
             </div>
-
-            {/* Scroll Progress Bar */}
-            <motion.div
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-left"
-                style={{ scaleX }}
-            />
-
-            {/* Mobile Menu */}
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden bg-background border-b border-border overflow-hidden"
-                    >
-                        <div className="px-4 pt-2 pb-4 space-y-1">
-                            {links.map((link) => (
-                                <button
-                                    key={link.name}
-                                    onClick={() => scrollToSection(link.href)}
-                                    className="block w-full text-left px-3 py-2 text-base font-medium text-foreground hover:bg-muted rounded-md"
-                                >
-                                    {link.name}
-                                </button>
-                            ))}
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </nav>
+        </header>
     );
 }

@@ -1,44 +1,22 @@
-import { Hero } from "@/components/Hero";
-import { Skills } from "@/components/Skills";
-import { WorkCode } from "@/components/WorkCode";
-import { PhysicsMaths } from "@/components/PhysicsMaths";
-import { Playground } from "@/components/Playground";
-import { Experience } from "@/components/Experience";
-import { Contact } from "@/components/Contact";
-import { CompetitiveProgramming } from "@/components/CompetitiveProgramming";
-import { Navbar } from "@/components/Navbar";
+"use client";
 
-export default function Home() {
+import Container from '@/components/common/Container';
+import Hero from '@/components/landing/Hero';
+import Experience from '@/components/landing/Experience';
+import Projects from '@/components/landing/Projects';
+import CompetitiveProgramming from '@/components/cp/CompetitiveProgramming';
+import Github from '@/components/landing/Github';
+
+export default function Page() {
   return (
-    <main className="min-h-screen text-foreground overflow-x-hidden relative z-10">
-      <Navbar />
-      <PhysicsMaths />
-
-      <section id="hero">
+    <>
+      <Container className="min-h-screen py-16 space-y-24">
         <Hero />
-      </section>
-
-      <section id="experience">
         <Experience />
-      </section>
-
-      <CompetitiveProgramming />
-
-      <section id="workcode">
-        <WorkCode />
-      </section>
-
-      <section id="skills">
-        <Skills />
-      </section>
-
-      <section id="playground">
-        <Playground />
-      </section>
-
-      <section id="contact">
-        <Contact />
-      </section>
-    </main>
+        <Projects />
+        <CompetitiveProgramming />
+        <Github />
+      </Container>
+    </>
   );
 }
