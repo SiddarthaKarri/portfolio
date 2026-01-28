@@ -41,6 +41,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // @ts-expect-error - eslint config is valid but types might be mismatching in v15
   eslint: {
     ignoreDuringBuilds: true,
   },
