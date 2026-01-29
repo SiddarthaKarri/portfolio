@@ -5,7 +5,7 @@ export interface NavItem {
 
 export const navbarConfig = {
     logo: {
-        src: 'https://github.com/shadcn.png',
+        src: '/assets/image.png',
         alt: 'logo',
         width: 60,
         height: 60,

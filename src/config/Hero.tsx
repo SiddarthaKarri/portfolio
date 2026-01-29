@@ -4,7 +4,7 @@ import { SiReact, SiNextdotjs, SiTypescript, SiPostgresql, SiMongodb } from "rea
 export const heroConfig = {
     name: 'Siddartha',
     title: 'Full Stack Developer.',
-    avatar: 'https://github.com/shadcn.png',
+    avatar: '/assets/image.png',
 
     skills: [
         {

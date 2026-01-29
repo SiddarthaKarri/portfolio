@@ -8,6 +8,8 @@ import { ThemeProvider } from '@/components/common/ThemeProviders';
 import { generateMetadata as getMetadata } from '@/config/Meta';
 import ReactLenis from 'lenis/react';
 import { ViewTransitions } from 'next-view-transitions';
+import AsciiBackground from '@/components/backgrounds/AsciiBackground';
+
 
 import './globals.css';
 
@@ -29,6 +31,8 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <ReactLenis root>
+              <AsciiBackground />
+
               <Navbar />
               {children}
               <OnekoCat />
